@@ -1,0 +1,79 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+vpc:
+  id: vpc-0149ca71c17fea5bf
+  cidr: "192.168.0.0/16"
+  subnets:
+    public:
+      public-one:
+        id: subnet-07a92865c8a0922ee
+      public-two:
+        id: subnet-0733b6f135db3ab4e
+      public-three:
+        id: subnet-015d6a229c150e78f
+    private:
+      private-one:
+        id: subnet-0f8711d4923fb1857
+      private-two:
+        id: subnet-0b3c3764fd386262f
+      private-three:
+        id: subnet-081d79106e0e102ca
+managedNodeGroups:
+- amiFamily: AmazonLinux2
+  desiredCapacity: 0
+  disableIMDSv1: false
+  disablePodIMDS: false
+  iam:
+    withAddonPolicies:
+      albIngress: false
+      appMesh: false
+      appMeshPreview: false
+      autoScaler: true
+      certManager: false
+      cloudWatch: false
+      ebs: false
+      efs: false
+      externalDNS: false
+      fsx: false
+      imageBuilder: false
+      xRay: false
+  instanceTypes:
+  - r4.large
+  - r5.large
+  - r5a.large
+  - r5ad.large
+  - r5d.large
+  labels:
+    alpha.eksctl.io/cluster-name: eksworkshop3
+    alpha.eksctl.io/nodegroup-name: dev-2vcpu-16gb-spot
+    appType: Memory
+    intent: apps
+  maxSize: 100
+  minSize: 0
+  subnets:
+    - private-one  
+  name: dev-2vcpu-16gb-spot
+  privateNetworking: true
+  releaseVersion: ""
+  securityGroups:
+    withLocal: null
+    withShared: null
+  spot: true
+  ssh:
+    allow: false
+    enableSsm: false
+    publicKeyPath: ""
+  tags:
+    alpha.eksctl.io/nodegroup-name: dev-2vcpu-16gb-spot
+    alpha.eksctl.io/nodegroup-type: managed
+  volumeIOPS: 3000
+  volumeSize: 80
+  volumeThroughput: 125
+  volumeType: gp3
+metadata:
+  name: eksworkshop3
+  region: us-east-1
+  tags:
+    k8s.io/cluster-autoscaler/node-template/label/appType: Memory
+    k8s.io/cluster-autoscaler/node-template/label/intent: apps
+  version: "1.18"

@@ -1,0 +1,73 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: general
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: general
+  name: scaletest
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: scaletest
+  replicas: 10
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: scaletest
+    spec:
+      nodeSelector:
+        type: arrow
+      containers:
+      - image: 000474600478.dkr.ecr.us-east-1.amazonaws.com/amazonlinux-sighandler:v1
+        imagePullPolicy: Always
+        name: scaletest
+        resources:
+          limits:
+            cpu:  100m
+            memory: 400Mi
+          requests:
+            cpu: 100m
+            memory: 400Mi        
+        env:
+          - name: VERSION
+            value: "1.0"
+          - name: APPNAME
+            value: "amazonlinux-sighandler"
+          - name: MY_POD_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name
+          - name: MY_POD_NAMESPACE
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.namespace
+          - name: MY_POD_IP
+            valueFrom:
+              fieldRef:
+                fieldPath: status.podIP            
+        ports:
+        - name: http
+          containerPort: 80
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 2
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 2    
+        lifecycle:
+          preStop:
+            exec:
+              command: ["/bin/sh", "-c", "sleep 15"]
+      terminationGracePeriodSeconds: 30
+      
+---

@@ -1,0 +1,43 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cluster-autoscaler-priority-expander
+  namespace: kube-system
+  # Compute
+  # dev-2vcpu-4gb-spot - eks-06bda6b2-4670-73ac-0f13-51e9424c8e1b
+  # dev-4vcpu-8gb-od - eks-14bda6b2-9127-cc88-a630-747beba999dd
+  # dev-4vcpu-8gb-spot - eks-e2bda6b2-95a3-4a63-dc32-aff558967d06
+  # dev-8vcpu-16gb-spot - eks-72bda6b2-1a05-a82f-4ff2-1ce42900917c
+  
+  # General
+  # dev-2vcpu-8gb-spot - eks-2ebda6ac-9466-4a58-e23c-e0c4c3346556
+  # dev-4vcpu-16gb-od - eks-7abda6ac-eee3-be0a-4e74-80f80228bae8
+  # dev-4vcpu-16gb-spot - eks-a8bda6ac-d858-531c-13e5-3ff6733f707d
+  # dev-8vcpu-32gb-spot - eks-92bda6ad-40ea-8fa3-132a-0f6a638fdb34
+  
+  # memory
+  # dev-2vcpu-16gb-spot - eks-8ebda6b7-45d1-0e69-ae29-0491f6501abe
+  # dev-4vcpu-32gb-od - eks-78bda6b7-c4cf-2313-efa4-026af4faf79d
+  # dev-4vcpu-32gb-spot - eks-6cbda6b7-8375-4fe2-a70e-07bf92525f10
+  # dev-8vcpu-64gb-spot - eks-6ebda6b7-b600-5475-25b8-644bbc81861e
+  
+  
+data:
+  priorities: |-
+    40:  # spot xlarge
+      - eks-e2bda6b2-95a3-4a63-dc32-aff558967d06  # dev-4vcpu-8gb-spot
+      - eks-a8bda6ac-d858-531c-13e5-3ff6733f707d  # dev-4vcpu-16gb-spot
+      - eks-6cbda6b7-8375-4fe2-a70e-07bf92525f10  # dev-4vcpu-32gb-spot
+    30: # spot large
+      - eks-06bda6b2-4670-73ac-0f13-51e9424c8e1b  # dev-2vcpu-4gb-spot
+      - eks-2ebda6ac-9466-4a58-e23c-e0c4c3346556  # dev-2vcpu-8gb-spot
+      - eks-8ebda6b7-45d1-0e69-ae29-0491f6501abe  # dev-2vcpu-16gb-spot      
+    20: # spot 2xlarge
+      - eks-72bda6b2-1a05-a82f-4ff2-1ce42900917c  # dev-8vcpu-16gb-spot
+      - eks-92bda6ad-40ea-8fa3-132a-0f6a638fdb34  # dev-8vcpu-32gb-spot
+      - eks-6ebda6b7-b600-5475-25b8-644bbc81861e  # dev-8vcpu-64gb-spot       
+    10: # od xlarge
+      - eks-14bda6b2-9127-cc88-a630-747beba999dd  # dev-4vcpu-8gb-od
+      - eks-7abda6ac-eee3-be0a-4e74-80f80228bae8  # dev-4vcpu-16gb-od
+      - eks-78bda6b7-c4cf-2313-efa4-026af4faf79d  # dev-4vcpu-32gb-od       
+      
