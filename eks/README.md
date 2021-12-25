@@ -5,7 +5,7 @@ This solution implements failover from Spot to OD when there is no spot capacity
 
 This is the overall architecture
 
-![](./docs/spot to on-demand failover for EKS.png)
+![](./docs/eks.png)
 
 
 # Setting up multiple Managed Spot Node groups on EKS
