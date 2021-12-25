@@ -1,3 +1,13 @@
+#  Spot to On-demand failover solution for Amazom EKS workloads 
+
+This solution implements failover from Spot to OD when there is no spot capacity available and from OD to Spot fall back
+
+
+This is the overall architecture
+
+![](./docs/spot to on-demand failover for EKS)
+
+
 # Setting up multiple Managed Spot Node groups on EKS
 
 1. Set up the AWS Environment as per below link
